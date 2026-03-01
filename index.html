@@ -15,6 +15,8 @@ body{
   text-align:center;
 }
 
+h1{margin-bottom:10px}
+
 .card{
   background:#111827;
   padding:20px;
@@ -36,6 +38,7 @@ button{
 
 .green{background:#22c55e;color:white;}
 .blue{background:#3b82f6;color:white;}
+.orange{background:#f59e0b;color:black;}
 .red{background:#ef4444;color:white;}
 
 input{
@@ -60,47 +63,54 @@ pre{
 <body>
 
 <h1>☕ Cha er Bari — Owner Dashboard</h1>
+<p>Cloud Synced Version</p>
 
 <div class="card">
-<h3>📦 Stock Control</h3>
+<h3>📦 Stock Manager</h3>
 
 <input id="item" placeholder="Item name">
 <input id="qty" type="number" placeholder="Quantity">
 
 <br><br>
 
-<button class="green" onclick="addStock()">Add / Update Stock</button>
-<button class="blue" onclick="loadStock()">Load Stock</button>
-<button class="red" onclick="clearLocal()">Clear Local Cache</button>
+<button class="green" onclick="addStock()">Add / Update</button>
+<button class="blue" onclick="loadFromCloud()">Load Cloud</button>
+<button class="orange" onclick="saveToCloud()">Force Sync</button>
+<button class="red" onclick="clearLocal()">Clear Local</button>
 </div>
 
 <div class="card">
-<h3>📊 Cloud Data</h3>
-<pre id="out">No data loaded</pre>
+<h3>📊 Current Data</h3>
+<pre id="out">Loading...</pre>
 </div>
 
 <script>
 
-// ⭐ YOUR GOOGLE SCRIPT BACKEND
+// ⭐ YOUR CLOUD BACKEND
 const API_URL = "https://script.google.com/macros/s/AKfycbx6gFmacoYe1sfKrDWUPakJe6rTXSL8DjOKl64zpZqZKLZmtJsFusJpuY3E3ntlQik7/exec";
 
 
-// =====================
-// LOCAL STORAGE
-// =====================
+// ===============================
+// LOCAL OFFLINE STORAGE
+// ===============================
 let stock = JSON.parse(localStorage.getItem("ceb_stock") || "{}");
 
 function saveLocal(){
   localStorage.setItem("ceb_stock", JSON.stringify(stock));
 }
 
+function refreshView(){
+  document.getElementById("out").textContent =
+    JSON.stringify(stock, null, 2);
+}
 
-// =====================
+
+// ===============================
 // ADD / UPDATE STOCK
-// =====================
+// ===============================
 async function addStock(){
   const item = document.getElementById("item").value.trim();
-  const qty = parseInt(document.getElementById("qty").value);
+  const qty  = parseInt(document.getElementById("qty").value);
 
   if(!item || !qty){
     alert("Enter item and quantity");
@@ -110,32 +120,38 @@ async function addStock(){
   stock[item] = (stock[item] || 0) + qty;
 
   saveLocal();
-  await saveCloud();
-
-  alert("Saved & synced!");
+  refreshView();
+  await saveToCloud();
 }
 
 
-// =====================
-// SAVE TO CLOUD
-// =====================
-async function saveCloud(){
-  await fetch(API_URL,{
-    method:"POST",
-    mode:"no-cors",
-    headers:{ "Content-Type":"application/json" },
-    body:JSON.stringify({
-      type:"saveStock",
-      stock
-    })
-  });
+// ===============================
+// SAVE TO GOOGLE CLOUD
+// ===============================
+async function saveToCloud(){
+  try{
+    await fetch(API_URL,{
+      method:"POST",
+      mode:"no-cors",
+      headers:{ "Content-Type":"application/json" },
+      body:JSON.stringify({
+        type:"saveStock",
+        stock
+      })
+    });
+
+    console.log("Cloud synced");
+
+  }catch(e){
+    alert("Cloud save failed");
+  }
 }
 
 
-// =====================
+// ===============================
 // LOAD FROM CLOUD
-// =====================
-async function loadStock(){
+// ===============================
+async function loadFromCloud(){
   try{
     const res = await fetch(API_URL + "?type=loadStock");
     const data = await res.json();
@@ -145,8 +161,7 @@ async function loadStock(){
       saveLocal();
     }
 
-    document.getElementById("out").textContent =
-      JSON.stringify(stock, null, 2);
+    refreshView();
 
   }catch(e){
     alert("Cloud load failed");
@@ -154,21 +169,24 @@ async function loadStock(){
 }
 
 
-// =====================
-// CLEAR LOCAL
-// =====================
+// ===============================
+// CLEAR LOCAL CACHE
+// ===============================
 function clearLocal(){
   localStorage.removeItem("ceb_stock");
   stock = {};
-  document.getElementById("out").textContent = "Local cache cleared";
+  refreshView();
 }
 
 
-// =====================
+// ===============================
 // AUTO LOAD ON START
-// =====================
-window.onload = loadStock;
+// ===============================
+window.onload = async () => {
+  await loadFromCloud();
+};
 
 </script>
+
 </body>
 </html>
