@@ -2,1307 +2,173 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="theme-color" content="#1a2e1a">
-<title>চা এর বাড়ি — Owner Dashboard</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Hind+Siliguri:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cha er Bari — Owner Dashboard</title>
+
 <style>
-:root {
-  --bg: #f4f1eb;
-  --card: #ffffff;
-  --card2: #faf8f4;
-  --bd: #e6e0d4;
-  --bdf: #d4cdbf;
-  --tx: #1a1510;
-  --txs: #5a5040;
-  --txf: #9a8f7d;
-
-  --forest: #1a2e1a;
-  --forest2: #2a4a2a;
-  --leaf: #3d7a3d;
-  --leafl: #e8f5e8;
-
-  --copper: #c47a2a;
-  --copperl: #fdf3e6;
-  --copperd: #a05e10;
-
-  --red: #d43b3b;
-  --redl: #fdecea;
-  --green: #1e9e5e;
-  --greenl: #eaf7f0;
-  --amber: #e69c0a;
-  --amberl: #fef8e7;
-  --blue: #2563eb;
-
-  --sh: 0 1px 3px rgba(0,0,0,.04), 0 4px 16px rgba(0,0,0,.06);
-  --sh2: 0 8px 32px rgba(0,0,0,.1);
-  --r: 16px;
-  --rs: 10px;
-  --f: 'Outfit', sans-serif;
-  --f2: 'JetBrains Mono', monospace;
-  --fb: 'Hind Siliguri', sans-serif;
+body{
+  font-family:system-ui;
+  background:#0f172a;
+  color:white;
+  margin:0;
+  padding:20px;
+  text-align:center;
 }
 
-* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
-html { height:100%; }
-body {
-  font-family: var(--f);
-  background: var(--bg);
-  color: var(--tx);
-  min-height: 100%;
-  max-width: 480px;
-  margin: 0 auto;
-  overflow-x: hidden;
-  padding-bottom: 80px;
-  -webkit-font-smoothing: antialiased;
+.card{
+  background:#111827;
+  padding:20px;
+  border-radius:16px;
+  max-width:520px;
+  margin:20px auto;
+  box-shadow:0 10px 30px rgba(0,0,0,.4);
 }
 
-/* ═══════════════════════════════════════ */
-/* SPLASH */
-/* ═══════════════════════════════════════ */
-#splash {
-  position: fixed; inset:0; z-index:9999;
-  background: var(--forest);
-  display: flex; flex-direction: column;
-  align-items: center; justify-content: center;
-  transition: opacity .5s, transform .5s;
-}
-#splash.hide { opacity:0; transform:scale(1.05); pointer-events:none; }
-.sp-cup { font-size:80px; animation: cupBob 2s ease-in-out infinite; }
-@keyframes cupBob { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
-.sp-steam { display:flex; gap:8px; margin-bottom:8px; }
-.sp-st { width:2px; height:40px; background:linear-gradient(to top,rgba(255,255,255,.3),transparent); border-radius:2px; animation:steam 2s ease-in-out infinite; }
-.sp-st:nth-child(2){animation-delay:.5s;height:52px} .sp-st:nth-child(3){animation-delay:1s}
-@keyframes steam{0%,100%{opacity:0;transform:translateY(0)}30%{opacity:1}100%{opacity:0;transform:translateY(-30px) scaleX(1.5)}}
-.sp-bn { font-family:var(--fb); font-size:36px; font-weight:700; color:#fff; margin-top:6px; }
-.sp-en { font-size:13px; color:rgba(255,255,255,.4); letter-spacing:4px; text-transform:uppercase; margin-top:2px; }
-.sp-tag { font-size:14px; color:rgba(255,255,255,.35); margin-top:20px; font-weight:300; letter-spacing:1px; }
-.sp-enter {
-  margin-top:32px; background:var(--copper); color:#fff; border:none; border-radius:50px;
-  padding:14px 48px; font-family:var(--f); font-size:15px; font-weight:600;
-  cursor:pointer; box-shadow:0 8px 28px rgba(196,122,42,.4); letter-spacing:.5px;
-  transition: transform .15s;
-}
-.sp-enter:active { transform:scale(.95); }
-
-/* ═══════════════════════════════════════ */
-/* HEADER */
-/* ═══════════════════════════════════════ */
-.hdr {
-  background: var(--forest);
-  background-image: radial-gradient(ellipse at 100% 0%, rgba(61,122,61,.5), transparent 60%);
-  padding: 48px 18px 16px;
-  position: sticky; top:0; z-index:80;
-}
-.hdr-top { display:flex; align-items:center; justify-content:space-between; margin-bottom:14px; }
-.hdr-name { color:#fff; }
-.hdr-name .bn { font-family:var(--fb); font-size:18px; font-weight:600; line-height:1.1; }
-.hdr-name .en { font-size:10px; color:rgba(255,255,255,.4); letter-spacing:2px; text-transform:uppercase; margin-top:1px; }
-.hdr-btn {
-  background:rgba(255,255,255,.12); border:1.5px solid rgba(255,255,255,.15);
-  color:#fff; border-radius:var(--rs); padding:8px 14px;
-  font-family:var(--f); font-size:12px; font-weight:700; cursor:pointer;
-  backdrop-filter:blur(4px); transition: background .15s;
-}
-.hdr-btn:active { background:rgba(255,255,255,.2); }
-.stat-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:6px; }
-.stat-box {
-  background: rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.08);
-  border-radius:var(--rs); padding:10px 6px; text-align:center;
-  backdrop-filter:blur(4px);
-}
-.stat-val { font-size:18px; font-weight:800; color:#fff; font-family:var(--f2); line-height:1; }
-.stat-lbl { font-size:8px; color:rgba(255,255,255,.5); font-weight:700; text-transform:uppercase; letter-spacing:.8px; margin-top:3px; }
-
-/* ═══════════════════════════════════════ */
-/* BOTTOM NAV */
-/* ═══════════════════════════════════════ */
-.bnav {
-  position:fixed; bottom:0; left:50%; transform:translateX(-50%);
-  width:100%; max-width:480px;
-  background:rgba(255,255,255,.95); backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px);
-  border-top:1.5px solid var(--bd);
-  display:grid; grid-template-columns:repeat(5,1fr);
-  padding:4px 0 env(safe-area-inset-bottom,6px);
-  z-index:100; box-shadow:0 -4px 20px rgba(0,0,0,.06);
-}
-.nb {
-  display:flex; flex-direction:column; align-items:center; gap:1px;
-  background:none; border:none; cursor:pointer; padding:6px 0;
-  color:var(--txf); font-family:var(--f); font-size:9px; font-weight:700;
-  position:relative; transition:color .15s;
-}
-.nb .ni { font-size:20px; line-height:1; transition:transform .15s; }
-.nb:active .ni { transform:scale(.85); }
-.nb.active { color:var(--forest); }
-.nb.active .ni { transform:scale(1.1); }
-.nb-dot {
-  position:absolute; top:2px; right:50%; margin-right:-16px;
-  background:var(--red); color:#fff; font-size:8px; font-weight:800;
-  border-radius:10px; padding:1px 5px; min-width:14px; text-align:center;
-  display:none; border:2px solid #fff;
-}
-.nb-dot.on { display:block; }
-
-/* ═══════════════════════════════════════ */
-/* PAGES */
-/* ═══════════════════════════════════════ */
-.page { display:none; }
-.page.active { display:block; animation:pageIn .25s ease-out both; }
-@keyframes pageIn { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
-
-/* SECTION */
-.sec { padding:12px 14px 0; }
-.sec-hd { display:flex; align-items:center; justify-content:space-between; margin-bottom:10px; }
-.sec-ttl { font-size:10px; font-weight:800; text-transform:uppercase; letter-spacing:1.2px; color:var(--txf); }
-.sec-btn {
-  background:var(--forest); color:#fff; border:none; border-radius:8px;
-  padding:6px 12px; font-family:var(--f); font-size:11px; font-weight:700; cursor:pointer;
+button{
+  padding:14px 22px;
+  border-radius:10px;
+  border:none;
+  font-size:16px;
+  font-weight:600;
+  cursor:pointer;
+  margin:6px;
 }
 
-/* TABS */
-.tabs { display:flex; gap:6px; padding:10px 14px 0; overflow-x:auto; scrollbar-width:none; }
-.tabs::-webkit-scrollbar { display:none; }
-.tab {
-  flex-shrink:0; padding:7px 14px; border-radius:20px;
-  border:1.5px solid var(--bd); background:var(--card);
-  font-family:var(--f); font-size:12px; font-weight:700;
-  color:var(--txf); cursor:pointer; white-space:nowrap; transition: all .15s;
-}
-.tab.active { background:var(--forest); border-color:var(--forest); color:#fff; }
-.tab .tc { background:rgba(0,0,0,.08); border-radius:10px; padding:1px 6px; font-size:10px; margin-left:3px; font-family:var(--f2); }
-.tab.active .tc { background:rgba(255,255,255,.2); }
+.green{background:#22c55e;color:white;}
+.blue{background:#3b82f6;color:white;}
+.red{background:#ef4444;color:white;}
 
-/* SEARCH */
-.srch {
-  margin:10px 14px 0; display:flex; align-items:center; gap:8px;
-  background:var(--card); border:1.5px solid var(--bd); border-radius:var(--rs);
-  padding:10px 14px; box-shadow: 0 1px 3px rgba(0,0,0,.03);
-}
-.srch input {
-  flex:1; background:none; border:none; outline:none;
-  font-family:var(--f); font-size:14px; font-weight:500; color:var(--tx);
-}
-.srch input::placeholder { color:var(--txf); }
-
-/* ALERT BANNERS */
-.alert-box { padding:10px 14px 0; }
-.alb {
-  border-radius:var(--rs); padding:10px 12px; margin-bottom:6px;
-  display:flex; align-items:center; gap:8px;
-}
-.alb.red { background:var(--redl); border:1.5px solid rgba(212,59,59,.15); }
-.alb.amber { background:var(--amberl); border:1.5px solid rgba(230,156,10,.15); }
-.alb-t { font-size:12px; font-weight:800; }
-.alb-s { font-size:10px; color:var(--txs); font-weight:500; margin-top:1px; line-height:1.3; }
-
-/* ═══════════════════════════════════════ */
-/* TABLE GRID (ORDERS) */
-/* ═══════════════════════════════════════ */
-.tgrid { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; padding:12px 14px 0; }
-.tcell {
-  border-radius:var(--r); border:1.5px solid var(--bd); background:var(--card);
-  padding:14px 8px; text-align:center; cursor:pointer; box-shadow: var(--sh);
-  position:relative; transition: transform .1s, box-shadow .1s;
-}
-.tcell:active { transform:scale(.97); }
-.tcell.occ { background:var(--copperl); border-color:var(--copper); }
-.tcell .tnum { font-size:22px; font-weight:900; font-family:var(--f2); color:var(--txf); line-height:1; }
-.tcell.occ .tnum { color:var(--copper); }
-.tcell .tlbl { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.5px; color:var(--txf); margin-top:2px; }
-.tcell.occ .tlbl { color:var(--copperd); }
-.tcell .tamt { font-size:10px; color:var(--txf); margin-top:3px; font-weight:500; }
-.tcell.occ .tamt { color:var(--copper); font-weight:700; }
-.tcell .tbdg {
-  position:absolute; top:5px; right:5px;
-  background:var(--copper); color:#fff; font-size:8px; font-weight:800;
-  border-radius:6px; padding:2px 6px; letter-spacing:.5px;
+input{
+  padding:12px;
+  border-radius:10px;
+  border:none;
+  font-size:16px;
+  width:90%;
+  margin-top:8px;
 }
 
-/* ORDER CARDS */
-.ocard {
-  background:var(--card); border-radius:var(--r); margin-bottom:10px;
-  box-shadow:var(--sh); border:1.5px solid var(--bd); overflow:hidden;
+pre{
+  text-align:left;
+  background:#020617;
+  padding:16px;
+  border-radius:12px;
+  overflow:auto;
 }
-.ocard-hd {
-  display:flex; align-items:center; justify-content:space-between;
-  padding:12px 14px; cursor:pointer;
-}
-.ocard-tbl { font-size:14px; font-weight:800; }
-.ocard-tbl span { font-size:11px; font-weight:500; color:var(--txf); margin-left:4px; }
-.ocard-tot { font-size:15px; font-weight:800; color:var(--green); font-family:var(--f2); }
-.ocard-body { padding:6px 14px 10px; }
-.ocard-row {
-  display:flex; align-items:center; gap:8px; padding:5px 0;
-  border-bottom:1px solid var(--bd); font-size:13px;
-}
-.ocard-row:last-child { border-bottom:none; }
-.ocard-nm { flex:1; font-weight:600; }
-.ocard-qty { font-weight:800; color:var(--copper); font-family:var(--f2); }
-.ocard-px { font-size:11px; color:var(--txf); font-weight:500; }
-.ocard-foot { display:flex; gap:8px; padding:10px 14px; border-top:1.5px solid var(--bd); }
-.btn-done {
-  flex:1; background:var(--green); color:#fff; border:none; border-radius:var(--rs);
-  padding:11px; font-family:var(--f); font-size:13px; font-weight:700; cursor:pointer;
-  transition: transform .1s;
-}
-.btn-done:active { transform:scale(.97); }
-.btn-cxl {
-  background:var(--redl); color:var(--red); border:none; border-radius:var(--rs);
-  padding:11px 14px; font-family:var(--f); font-size:13px; font-weight:700; cursor:pointer;
-}
-
-/* ═══════════════════════════════════════ */
-/* STOCK CARD */
-/* ═══════════════════════════════════════ */
-.scard {
-  background:var(--card); border-radius:var(--r); margin-bottom:10px;
-  box-shadow:var(--sh); border:1.5px solid var(--bd); overflow:hidden;
-}
-.scard-top { display:flex; align-items:center; padding:12px 14px 0; gap:10px; }
-.scard-emo { font-size:28px; width:36px; text-align:center; flex-shrink:0; }
-.scard-nm { font-size:14px; font-weight:800; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-.scard-sub { font-size:11px; color:var(--txf); font-weight:500; margin-top:1px; }
-.sdot { width:9px; height:9px; border-radius:50%; flex-shrink:0; }
-.sdot.ok { background:var(--green); box-shadow:0 0 6px rgba(30,158,94,.4); }
-.sdot.low { background:var(--amber); box-shadow:0 0 6px rgba(230,156,10,.4); }
-.sdot.out { background:var(--red); animation:blink 1s infinite; }
-@keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
-.scard-meters { padding:10px 14px 12px; display:grid; grid-template-columns:1fr 1fr; gap:8px; }
-.sm {
-  background:var(--bg); border:1.5px solid var(--bd); border-radius:var(--rs); padding:10px;
-}
-.sm-lbl { font-size:9px; font-weight:800; text-transform:uppercase; letter-spacing:.8px; color:var(--txf); margin-bottom:4px; }
-.sm-row { display:flex; align-items:center; justify-content:space-between; gap:4px; }
-.sm-val { font-size:20px; font-weight:900; font-family:var(--f2); line-height:1; }
-.sm-unit { font-size:9px; color:var(--txf); font-weight:600; margin-top:2px; }
-.sm-btns { display:flex; gap:3px; flex-shrink:0; }
-.sb {
-  height:28px; border-radius:7px; border:none; font-size:10px; font-weight:800;
-  cursor:pointer; display:flex; align-items:center; justify-content:center;
-  padding:0 7px; white-space:nowrap; transition:transform .1s;
-  font-family:var(--f);
-}
-.sb:active { transform:scale(.85); }
-.sb.m { background:var(--redl); color:var(--red); }
-.sb.p { background:var(--greenl); color:var(--green); }
-.sm-bar { height:3px; border-radius:2px; background:var(--bd); margin-top:6px; overflow:hidden; }
-.sm-fill { height:100%; border-radius:2px; transition:width .4s; }
-.scard-warn {
-  margin:0 14px 10px; border-radius:8px; padding:6px 10px;
-  font-size:11px; font-weight:700; display:flex; align-items:center; gap:5px;
-}
-.scard-warn.ye { background:var(--amberl); color:#8a5e00; }
-.scard-warn.rd { background:var(--redl); color:var(--red); }
-
-/* RESTOCK CARD */
-.rcard {
-  background:var(--card); border-radius:var(--r); margin-bottom:10px;
-  padding:14px; box-shadow:var(--sh); border:1.5px solid var(--bd);
-}
-.rcard-top { display:flex; align-items:center; gap:10px; margin-bottom:10px; }
-.rcard-nm { font-size:14px; font-weight:800; }
-.rcard-st { font-size:11px; font-weight:600; margin-top:1px; }
-.rcard-row { display:flex; gap:8px; align-items:center; }
-.rcard-in {
-  flex:1; border:1.5px solid var(--bd); border-radius:8px; padding:10px;
-  font-family:var(--f); font-size:15px; font-weight:700; background:var(--bg);
-  color:var(--tx); outline:none; text-align:center;
-}
-.rcard-in:focus { border-color:var(--green); }
-.rcard-unit { font-size:10px; color:var(--txf); font-weight:600; min-width:36px; text-align:center; }
-.rcard-btn {
-  background:var(--green); color:#fff; border:none; border-radius:8px;
-  padding:10px 14px; font-family:var(--f); font-size:13px; font-weight:700; cursor:pointer;
-}
-
-/* ═══════════════════════════════════════ */
-/* ANALYTICS */
-/* ═══════════════════════════════════════ */
-.acard {
-  background:var(--card); border-radius:var(--r); padding:16px; margin-bottom:10px;
-  box-shadow:var(--sh); border:1.5px solid var(--bd);
-}
-.acard-ttl { font-size:10px; font-weight:800; text-transform:uppercase; letter-spacing:1px; color:var(--txf); margin-bottom:10px; }
-.arow { display:flex; justify-content:space-between; align-items:center; padding:6px 0; }
-.arow:not(:last-child) { border-bottom:1px solid var(--bd); }
-.arow .al { color:var(--txs); font-size:13px; font-weight:500; }
-.arow .av { font-weight:800; font-family:var(--f2); font-size:14px; }
-.arow.big .av { color:var(--green); font-size:18px; }
-.arow .av.red { color:var(--red); }
-.arow .av.blue { color:var(--blue); }
-.arow .av.copper { color:var(--copper); }
-.hi {
-  background:var(--card); border-radius:var(--rs); margin-bottom:8px; padding:11px 13px;
-  display:flex; gap:9px; box-shadow:var(--sh); border:1.5px solid var(--bd);
-}
-.hi-tx { flex:1; }
-.hi-main { font-size:13px; font-weight:700; }
-.hi-sub { font-size:11px; color:var(--txf); font-weight:500; margin-top:1px; line-height:1.4; }
-.hi-amt { font-size:14px; font-weight:800; color:var(--green); font-family:var(--f2); flex-shrink:0; }
-
-/* EXPENSE CARD */
-.ecard {
-  background:var(--card); border-radius:var(--rs); margin-bottom:8px; padding:12px 14px;
-  display:flex; align-items:center; gap:10px; box-shadow:var(--sh); border:1.5px solid var(--bd);
-}
-.ecard-nm { flex:1; font-size:13px; font-weight:700; }
-.ecard-sub { font-size:10px; color:var(--txf); font-weight:500; margin-top:1px; }
-.ecard-amt { font-size:14px; font-weight:800; color:var(--red); font-family:var(--f2); }
-.ecard-del { background:var(--redl); border:none; border-radius:6px; padding:6px 8px; font-size:12px; cursor:pointer; }
-
-/* MANAGE ITEM */
-.mitem {
-  background:var(--card); border-radius:var(--r); margin-bottom:9px;
-  box-shadow:var(--sh); border:1.5px solid var(--bd);
-}
-.mrow { display:flex; align-items:center; padding:11px 14px; gap:10px; }
-.minfo { flex:1; min-width:0; }
-.mname { font-size:14px; font-weight:800; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-.msub { font-size:10px; color:var(--txf); font-weight:500; margin-top:1px; }
-.macts { display:flex; gap:5px; }
-.abtn { border:none; border-radius:7px; padding:6px 10px; cursor:pointer; font-size:12px; transition:transform .1s; }
-.abtn:active { transform:scale(.9); }
-.aedit { background:var(--copperl); color:var(--copper); }
-.adel { background:var(--redl); color:var(--red); }
-
-/* ═══════════════════════════════════════ */
-/* MODALS */
-/* ═══════════════════════════════════════ */
-.mo {
-  position:fixed; inset:0; background:rgba(0,0,0,.45);
-  z-index:200; opacity:0; pointer-events:none;
-  transition:opacity .2s; backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px);
-  display:flex; align-items:flex-end; justify-content:center;
-}
-.mo.open { opacity:1; pointer-events:all; }
-.ms {
-  background:var(--card); border-radius:22px 22px 0 0;
-  width:100%; max-width:480px;
-  transform:translateY(100%); transition:transform .3s cubic-bezier(.32,.72,0,1);
-  display:flex; flex-direction:column; max-height:92vh;
-}
-.mo.open .ms { transform:translateY(0); }
-.mhandle { width:36px; height:4px; background:var(--bdf); border-radius:2px; margin:10px auto 2px; flex-shrink:0; }
-.mtitle {
-  font-size:17px; font-weight:800; padding:8px 18px 12px;
-  border-bottom:1.5px solid var(--bd); flex-shrink:0;
-  display:flex; align-items:center; justify-content:space-between;
-}
-.mclose {
-  background:var(--bg); border:none; border-radius:8px; padding:5px 10px;
-  font-size:12px; font-weight:700; color:var(--txf); cursor:pointer;
-}
-.mscroll { overflow-y:auto; flex:1; min-height:0; }
-
-/* MENU in order modal */
-.mnsec { padding:8px 16px 0; }
-.mnsttl {
-  font-size:10px; font-weight:800; text-transform:uppercase;
-  letter-spacing:1.2px; color:var(--txf); margin-bottom:7px; padding-top:4px;
-}
-.mnitem {
-  display:flex; align-items:center; gap:10px; padding:9px 0;
-  border-bottom:1px solid var(--bd);
-}
-.mnitem:last-child { border-bottom:none; }
-.mn-em { font-size:22px; width:30px; text-align:center; flex-shrink:0; }
-.mn-nm { font-size:13px; font-weight:700; }
-.mn-px { font-size:12px; color:var(--green); font-weight:600; }
-.mn-oos { color:var(--red)!important; font-size:10px; }
-.mnadd {
-  background:var(--forest); color:#fff; border:none; border-radius:8px;
-  width:32px; height:32px; font-size:18px; cursor:pointer; font-weight:700;
-  display:flex; align-items:center; justify-content:center; flex-shrink:0;
-  transition:transform .1s;
-}
-.mnadd:active { transform:scale(.85); }
-.mnadd.oos { background:var(--bdf); color:var(--txf); cursor:not-allowed; }
-.mnctls { display:flex; align-items:center; gap:5px; }
-.mnqty { font-size:16px; font-weight:900; min-width:20px; text-align:center; font-family:var(--f2); }
-.cb { width:28px; height:28px; border-radius:7px; border:none; font-size:15px; cursor:pointer; display:flex; align-items:center; justify-content:center; font-weight:800; }
-.cb.m { background:var(--redl); color:var(--red); }
-.cb.p { background:var(--greenl); color:var(--green); }
-
-/* CART */
-.cartsec { border-top:2px solid var(--bd); flex-shrink:0; max-height:220px; overflow-y:auto; }
-.carthd { display:flex; align-items:center; justify-content:space-between; padding:9px 16px; position:sticky; top:0; background:var(--card); border-bottom:1px solid var(--bd); }
-.cartttl { font-size:13px; font-weight:800; }
-.carttot { font-size:15px; font-weight:800; color:var(--green); font-family:var(--f2); }
-.ci { display:flex; align-items:center; gap:9px; padding:8px 16px; border-bottom:1px solid var(--bd); }
-.ci-nm { flex:1; font-size:13px; font-weight:700; }
-.ci-px { font-size:11px; color:var(--txf); font-weight:500; }
-.mfoot {
-  padding:12px 16px; border-top:2px solid var(--bd); flex-shrink:0;
-  display:flex; gap:8px;
-}
-.seltbl {
-  flex:1; background:var(--bg); border:1.5px solid var(--bd); border-radius:var(--rs);
-  padding:10px 12px; font-family:var(--f); font-size:14px; font-weight:600;
-  color:var(--tx); outline:none; cursor:pointer; -webkit-appearance:none;
-}
-.btnplace {
-  background:var(--copper); color:#fff; border:none; border-radius:var(--rs);
-  padding:11px 20px; font-family:var(--f); font-size:15px; font-weight:800;
-  cursor:pointer; white-space:nowrap; transition:transform .1s;
-}
-.btnplace:active { transform:scale(.97); }
-
-/* FORM */
-.fg { padding:12px 16px 0; }
-.fg label { font-size:9px; font-weight:800; text-transform:uppercase; letter-spacing:.9px; color:var(--txf); display:block; margin-bottom:5px; }
-.fc {
-  width:100%; border:1.5px solid var(--bd); border-radius:var(--rs); padding:10px 12px;
-  font-family:var(--f); font-size:14px; font-weight:600; background:var(--bg);
-  color:var(--tx); outline:none;
-}
-.fc:focus { border-color:var(--copper); }
-select.fc { -webkit-appearance:none; cursor:pointer; }
-.fr { display:grid; grid-template-columns:1fr 1fr; gap:10px; padding:12px 16px 0; }
-.fr label { font-size:9px; font-weight:800; text-transform:uppercase; letter-spacing:.9px; color:var(--txf); display:block; margin-bottom:5px; }
-.eg { display:grid; grid-template-columns:repeat(6,1fr); gap:6px; padding:4px 0; }
-.eo { font-size:21px; text-align:center; padding:6px; border-radius:8px; cursor:pointer; border:2px solid transparent; transition:all .1s; }
-.eo.sel { border-color:var(--copper); background:var(--copperl); }
-.mffoot { padding:12px 16px 8px; display:flex; gap:9px; }
-.btnsave { flex:1; background:var(--copper); color:#fff; border:none; border-radius:var(--rs); padding:12px; font-family:var(--f); font-size:15px; font-weight:700; cursor:pointer; }
-.btncncl { background:var(--bg); color:var(--txf); border:1.5px solid var(--bd); border-radius:var(--rs); padding:12px 16px; font-family:var(--f); font-size:14px; font-weight:600; cursor:pointer; }
-
-/* BULK USE */
-.burow { display:flex; align-items:center; padding:10px 16px; border-bottom:1px solid var(--bd); gap:10px; }
-.buname { font-size:13px; font-weight:700; }
-.bust { font-size:10px; color:var(--txf); font-weight:500; }
-.buval { font-size:16px; font-weight:900; min-width:24px; text-align:center; font-family:var(--f2); }
-
-/* EMPTY STATE */
-.empty { text-align:center; padding:44px 20px; color:var(--txf); }
-.empty .ei { font-size:50px; margin-bottom:10px; }
-.empty .et { font-size:14px; font-weight:700; }
-.empty .es { font-size:12px; margin-top:3px; font-weight:400; }
-
-/* TOAST */
-.toast {
-  position:fixed; bottom:90px; left:50%;
-  transform:translateX(-50%) translateY(14px);
-  background:var(--tx); color:#fff; padding:10px 20px;
-  border-radius:28px; font-size:13px; font-weight:700;
-  opacity:0; transition:all .25s; z-index:400;
-  white-space:nowrap; pointer-events:none;
-  max-width:90vw; text-align:center;
-  box-shadow:var(--sh2);
-}
-.toast.on { opacity:1; transform:translateX(-50%) translateY(0); }
-
-/* FAB */
-.fab {
-  position:fixed; bottom:78px; right:16px;
-  width:52px; height:52px; border-radius:50%;
-  background:var(--copper); box-shadow:0 6px 24px rgba(196,122,42,.4);
-  border:none; color:#fff; font-size:26px; cursor:pointer;
-  display:flex; align-items:center; justify-content:center;
-  z-index:90; transition:transform .15s;
-}
-.fab:active { transform:scale(.9); }
-
-/* DATA MANAGEMENT */
-.data-sec { padding:14px; }
-.data-card {
-  background:var(--card); border-radius:var(--r); padding:16px;
-  box-shadow:var(--sh); border:1.5px solid var(--bd); margin-bottom:10px;
-}
-.data-btn {
-  width:100%; padding:12px; border-radius:var(--rs); border:1.5px solid var(--bd);
-  background:var(--bg); font-family:var(--f); font-size:13px; font-weight:700;
-  color:var(--tx); cursor:pointer; margin-bottom:8px; text-align:left;
-  display:flex; align-items:center; gap:10px; transition:background .15s;
-}
-.data-btn:active { background:var(--bd); }
-.data-btn.danger { border-color:rgba(212,59,59,.2); color:var(--red); }
-.data-btn.danger:active { background:var(--redl); }
 </style>
 </head>
+
 <body>
 
-<!-- ═══════════ SPLASH ═══════════ -->
-<div id="splash">
-  <div class="sp-steam"><div class="sp-st"></div><div class="sp-st"></div><div class="sp-st"></div></div>
-  <div class="sp-cup">☕</div>
-  <div class="sp-bn">চা এর বাড়ি</div>
-  <div class="sp-en">Cha er Bari</div>
-  <div class="sp-tag">Owner Dashboard</div>
-  <button class="sp-enter" onclick="enterApp()">Open Dashboard →</button>
+<h1>☕ Cha er Bari — Owner Dashboard</h1>
+
+<div class="card">
+<h3>📦 Stock Control</h3>
+
+<input id="item" placeholder="Item name">
+<input id="qty" type="number" placeholder="Quantity">
+
+<br><br>
+
+<button class="green" onclick="addStock()">Add / Update Stock</button>
+<button class="blue" onclick="loadStock()">Load Stock</button>
+<button class="red" onclick="clearLocal()">Clear Local Cache</button>
 </div>
 
-<!-- ═══════════ HEADER ═══════════ -->
-<div class="hdr" id="mainHdr" style="display:none">
-  <div class="hdr-top">
-    <div class="hdr-name">
-      <div class="bn">চা এর বাড়ি</div>
-      <div class="en">Owner Dashboard</div>
-    </div>
-    <button class="hdr-btn" id="hbtn" onclick="openNewOrder()">+ New Order</button>
-  </div>
-  <div class="stat-grid">
-    <div class="stat-box"><div class="stat-val" id="sh-ord">0</div><div class="stat-lbl">Open</div></div>
-    <div class="stat-box"><div class="stat-val" id="sh-rev">₹0</div><div class="stat-lbl">Today</div></div>
-    <div class="stat-box"><div class="stat-val" id="sh-low">0</div><div class="stat-lbl">Low</div></div>
-    <div class="stat-box"><div class="stat-val" id="sh-out">0</div><div class="stat-lbl">Out</div></div>
-  </div>
+<div class="card">
+<h3>📊 Cloud Data</h3>
+<pre id="out">No data loaded</pre>
 </div>
-
-<!-- ═══════════ PAGE: ORDERS ═══════════ -->
-<div id="page-orders" class="page">
-  <div class="tabs" id="ordTabs">
-    <button class="tab active" data-f="open" onclick="setOF(this)">Open <span class="tc" id="cnt-open">0</span></button>
-    <button class="tab" data-f="all" onclick="setOF(this)">All <span class="tc" id="cnt-all">0</span></button>
-  </div>
-  <div id="tblGrid" class="tgrid"></div>
-  <div class="sec"><div id="ordCards"></div></div>
-</div>
-
-<!-- ═══════════ PAGE: STOCK ═══════════ -->
-<div id="page-stock" class="page">
-  <div class="tabs" id="catTabs"></div>
-  <div class="srch"><span>🔍</span><input type="text" id="srchIn" placeholder="Search raw materials…" oninput="renderStock()"></div>
-  <div class="alert-box" id="alertsBox"></div>
-  <div class="sec">
-    <div class="sec-hd">
-      <span class="sec-ttl">Raw Material Stock</span>
-      <button class="sec-btn" onclick="openBulk()">📤 Bulk Use</button>
-    </div>
-    <div id="stockList"></div>
-  </div>
-</div>
-
-<!-- ═══════════ PAGE: ANALYTICS ═══════════ -->
-<div id="page-analytics" class="page">
-  <div class="sec" style="padding-top:14px">
-    <div class="acard" id="salesSum"></div>
-    <div class="acard" id="expenseSum"></div>
-    <div class="sec-ttl" style="margin-bottom:10px">Completed Orders</div>
-    <div id="salesList"></div>
-    <div class="sec-ttl" style="margin:14px 0 10px">Expenses</div>
-    <div id="expensesList"></div>
-  </div>
-</div>
-
-<!-- ═══════════ PAGE: RESTOCK ═══════════ -->
-<div id="page-restock" class="page">
-  <div class="sec" style="padding-top:14px">
-    <div class="sec-ttl" style="margin-bottom:10px">Needs Restocking</div>
-    <div id="restockList"></div>
-  </div>
-</div>
-
-<!-- ═══════════ PAGE: MANAGE ═══════════ -->
-<div id="page-manage" class="page">
-  <div class="sec" style="padding-top:14px">
-    <div class="sec-hd">
-      <span class="sec-ttl" id="manageTtl">Raw Materials</span>
-      <button class="sec-btn" onclick="openAddItem()">+ Add</button>
-    </div>
-    <div id="manageList"></div>
-
-    <!-- Expense Entry -->
-    <div class="sec-ttl" style="margin:16px 0 10px">Add Expense</div>
-    <div class="acard" style="padding:14px">
-      <div style="margin-bottom:8px">
-        <label style="font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.8px;color:var(--txf)">Description</label>
-        <input class="fc" id="exp-desc" type="text" placeholder="e.g. Milk purchase, Gas refill…" style="margin-top:4px">
-      </div>
-      <div style="display:flex;gap:8px;align-items:flex-end">
-        <div style="flex:1">
-          <label style="font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.8px;color:var(--txf)">Amount (₹)</label>
-          <input class="fc" id="exp-amt" type="number" placeholder="0" style="margin-top:4px">
-        </div>
-        <button class="sec-btn" style="padding:11px 16px;background:var(--red)" onclick="addExpense()">+ Add Expense</button>
-      </div>
-    </div>
-
-    <!-- Data Management -->
-    <div class="sec-ttl" style="margin:16px 0 10px">Data Management</div>
-    <div class="data-card">
-      <button class="data-btn" onclick="exportData()">📥 Export All Data (JSON)</button>
-      <button class="data-btn" onclick="document.getElementById('importFile').click()">📤 Import Data (JSON)</button>
-      <input type="file" id="importFile" accept=".json" style="display:none" onchange="importData(event)">
-      <button class="data-btn" onclick="resetStock()">🔄 Reset Stock to Default</button>
-      <button class="data-btn danger" onclick="clearAllData()">🗑 Clear ALL Data</button>
-    </div>
-  </div>
-</div>
-
-<!-- FAB -->
-<button class="fab" id="fabBtn" onclick="openNewOrder()">+</button>
-
-<!-- BOTTOM NAV -->
-<div class="bnav" id="mainNav" style="display:none">
-  <button class="nb active" id="nb-orders" onclick="switchPage('orders',this)"><span class="ni">🛎️</span><span>Orders</span><span class="nb-dot" id="nb-ord-b"></span></button>
-  <button class="nb" id="nb-stock" onclick="switchPage('stock',this)"><span class="ni">📦</span><span>Stock</span><span class="nb-dot" id="nb-stk-b"></span></button>
-  <button class="nb" id="nb-analytics" onclick="switchPage('analytics',this)"><span class="ni">📊</span><span>Analytics</span></button>
-  <button class="nb" id="nb-restock" onclick="switchPage('restock',this)"><span class="ni">🔄</span><span>Restock</span><span class="nb-dot" id="nb-rst-b"></span></button>
-  <button class="nb" id="nb-manage" onclick="switchPage('manage',this)"><span class="ni">⚙️</span><span>Manage</span></button>
-</div>
-
-<!-- ═══════════ ORDER MODAL ═══════════ -->
-<div class="mo" id="moOrd" onclick="closeMo('moOrd',event)">
-  <div class="ms" onclick="event.stopPropagation()">
-    <div class="mhandle"></div>
-    <div class="mtitle"><span id="moOrdTitle">🛎️ New Order</span><button class="mclose" onclick="closeMo('moOrd')">✕ Close</button></div>
-    <div class="mscroll"><div id="moMenuList"></div></div>
-    <div class="cartsec" id="cartSec" style="display:none">
-      <div class="carthd"><span class="cartttl">🛒 Order</span><span class="carttot" id="cartTot">₹0</span></div>
-      <div id="cartItems"></div>
-    </div>
-    <div class="mfoot">
-      <select class="seltbl" id="tblSel">
-        <option value="">Select Table…</option>
-        <option value="T1">Table 1</option><option value="T2">Table 2</option>
-        <option value="T3">Table 3</option><option value="T4">Table 4</option>
-        <option value="T5">Table 5</option><option value="T6">Table 6</option>
-        <option value="T7">Table 7</option><option value="T8">Table 8</option>
-        <option value="Parcel">📦 Parcel</option>
-      </select>
-      <button class="btnplace" onclick="placeOrder()">Place Order</button>
-    </div>
-  </div>
-</div>
-
-<!-- ═══════════ ADD/EDIT RAW MATERIAL MODAL ═══════════ -->
-<div class="mo" id="moItem" onclick="closeMo('moItem',event)">
-  <div class="ms" onclick="event.stopPropagation()" style="overflow-y:auto;max-height:88vh">
-    <div class="mhandle"></div>
-    <div class="mtitle" id="moItemTitle">➕ Add Raw Material</div>
-    <div class="fg"><label>Name *</label><input class="fc" id="fi-name" type="text" placeholder="e.g. Chicken Nuggets Frozen"></div>
-    <div class="fg"><label>Emoji</label><div class="eg" id="emojiGrid"></div></div>
-    <div class="fg"><label>Category</label>
-      <select class="fc" id="fi-cat">
-        <option value="Beverages">☕ Beverages</option><option value="Condiments">🧂 Condiments</option>
-        <option value="Eggs & Dairy">🥚 Eggs & Dairy</option><option value="Bread & Grains">🍞 Bread & Grains</option>
-        <option value="Vegetables">🥦 Vegetables</option><option value="Frozen">❄️ Frozen</option>
-        <option value="Chicken">🍗 Chicken</option><option value="Fish">🐟 Fish</option>
-      </select>
-    </div>
-    <div class="fg"><label>Track stock by</label>
-      <select class="fc" id="fi-track" onchange="updateTrackLbl()">
-        <option value="GM">Weight — Grams (GM)</option>
-        <option value="ML">Volume — Millilitres (ML)</option>
-        <option value="Piece">Count — Pieces</option>
-      </select>
-    </div>
-    <div class="fr">
-      <div><label>Current stock</label><input class="fc" id="fi-stock" type="number" min="0" placeholder="0"></div>
-      <div><label id="fi-pklbl">Pack size (gm)</label><input class="fc" id="fi-pack" type="number" min="1" placeholder="1000"></div>
-    </div>
-    <div class="fr">
-      <div><label>Low alert ≤</label><input class="fc" id="fi-low" type="number" min="0" placeholder="200"></div>
-      <div><label>Cost per pack (₹)</label><input class="fc" id="fi-cost" type="number" min="0" placeholder="0"></div>
-    </div>
-    <div class="mffoot">
-      <button class="btncncl" onclick="closeMo('moItem')">Cancel</button>
-      <button class="btnsave" onclick="saveItem()">Save</button>
-    </div>
-    <div style="height:10px"></div>
-  </div>
-</div>
-
-<!-- ═══════════ BULK USE MODAL ═══════════ -->
-<div class="mo" id="moBulk" onclick="closeMo('moBulk',event)">
-  <div class="ms" onclick="event.stopPropagation()" style="max-height:80vh;overflow-y:auto">
-    <div class="mhandle"></div>
-    <div class="mtitle" style="font-size:16px">📤 Record Manual Usage</div>
-    <div style="padding:6px 16px 8px;font-size:12px;color:var(--txf);font-weight:500">Record items used manually (values in native unit: gm / ml / pcs).</div>
-    <div id="bulkList"></div>
-    <div class="mffoot">
-      <button class="btncncl" onclick="closeMo('moBulk')">Cancel</button>
-      <button class="btnsave" style="background:var(--green)" onclick="applyBulk()">✓ Apply</button>
-    </div>
-  </div>
-</div>
-
-<div class="toast" id="toast"></div>
 
 <script>
 
-  // ☁️ CLOUD SYNC CONFIG (Google Sheets Backend)
-const API_URL = "https://script.google.com/macros/s/AKfycbxx0Pes9a6k13KY7Aso8tGzIbN5WvYvkd4g8roFKzg6CZlBZaBp0jtGpqIt8awizBtk/exec";
-// ═══════════════════════════════════════════════════════
-// RAW MATERIALS — exact data from Excel Sheet 2
-// ═══════════════════════════════════════════════════════
-const DEFAULT_RAW = [
-  {id:'r-tea-ctc',name:'Tea Leaf CTC',emoji:'🍵',cat:'Beverages',trackBy:'GM',stock:2000,packSize:1000,costPerPack:400,lowAlert:200},
-  {id:'r-tea-flv',name:'Tea Leaf Flavour',emoji:'🍵',cat:'Beverages',trackBy:'GM',stock:1000,packSize:1000,costPerPack:700,lowAlert:200},
-  {id:'r-coffee',name:'Coffee Powder',emoji:'☕',cat:'Beverages',trackBy:'GM',stock:400,packSize:200,costPerPack:600,lowAlert:60},
-  {id:'r-milk',name:'Milk',emoji:'🥛',cat:'Beverages',trackBy:'ML',stock:2000,packSize:500,costPerPack:35,lowAlert:500},
-  {id:'r-sugar',name:'Sugar',emoji:'🍬',cat:'Condiments',trackBy:'GM',stock:2000,packSize:1000,costPerPack:50,lowAlert:300},
-  {id:'r-salt',name:'Salt',emoji:'🧂',cat:'Condiments',trackBy:'GM',stock:1000,packSize:1000,costPerPack:26,lowAlert:200},
-  {id:'r-bpepper',name:'Black Pepper',emoji:'🌶️',cat:'Condiments',trackBy:'GM',stock:200,packSize:100,costPerPack:140,lowAlert:30},
-  {id:'r-ketchup',name:'Tomato Ketchup',emoji:'🍅',cat:'Condiments',trackBy:'GM',stock:2000,packSize:1000,costPerPack:80,lowAlert:200},
-  {id:'r-chaat',name:'Chaat Masala',emoji:'🧂',cat:'Condiments',trackBy:'GM',stock:200,packSize:100,costPerPack:50,lowAlert:40},
-  {id:'r-oil',name:'Rice Bran Oil',emoji:'🫙',cat:'Condiments',trackBy:'ML',stock:2000,packSize:1000,costPerPack:140,lowAlert:300},
-  {id:'r-egg',name:'Egg',emoji:'🥚',cat:'Eggs & Dairy',trackBy:'Piece',stock:24,packSize:12,costPerPack:80,lowAlert:6},
-  {id:'r-butter',name:'Butter',emoji:'🧈',cat:'Eggs & Dairy',trackBy:'GM',stock:500,packSize:500,costPerPack:285,lowAlert:100},
-  {id:'r-bread',name:'Bread',emoji:'🍞',cat:'Bread & Grains',trackBy:'Piece',stock:16,packSize:1,costPerPack:3,lowAlert:4},
-  {id:'r-maggi',name:'Maggi Block',emoji:'🍜',cat:'Bread & Grains',trackBy:'Piece',stock:12,packSize:6,costPerPack:72,lowAlert:6},
-  {id:'r-onion',name:'Onion',emoji:'🧅',cat:'Vegetables',trackBy:'GM',stock:2000,packSize:1000,costPerPack:40,lowAlert:300},
-  {id:'r-garlic',name:'Garlic',emoji:'🧄',cat:'Vegetables',trackBy:'GM',stock:1000,packSize:1000,costPerPack:100,lowAlert:200},
-  {id:'r-gchilli',name:'Green Chilli',emoji:'🌶️',cat:'Vegetables',trackBy:'GM',stock:500,packSize:1000,costPerPack:100,lowAlert:100},
-  {id:'r-cucumb',name:'Cucumber',emoji:'🥒',cat:'Vegetables',trackBy:'GM',stock:1000,packSize:1000,costPerPack:60,lowAlert:200},
-  {id:'r-fff',name:'French Fry Frozen',emoji:'🍟',cat:'Frozen',trackBy:'GM',stock:2500,packSize:2500,costPerPack:300,lowAlert:300},
-  {id:'r-ppops',name:'Potato Pops Frozen',emoji:'🟡',cat:'Frozen',trackBy:'Piece',stock:100,packSize:100,costPerPack:380,lowAlert:20},
-  {id:'r-atikki',name:'Aloo Tikki Frozen',emoji:'🫕',cat:'Frozen',trackBy:'Piece',stock:30,packSize:30,costPerPack:390,lowAlert:8},
-  {id:'r-cfinger',name:'Chicken Finger Frozen',emoji:'🍗',cat:'Chicken',trackBy:'Piece',stock:33,packSize:33,costPerPack:340,lowAlert:8},
-  {id:'r-cnugg',name:'Chicken Nuggets Frozen',emoji:'🍗',cat:'Chicken',trackBy:'Piece',stock:50,packSize:50,costPerPack:340,lowAlert:10},
-  {id:'r-cpopcorn',name:'Chicken Popcorn Frozen',emoji:'🍗',cat:'Chicken',trackBy:'Piece',stock:100,packSize:100,costPerPack:330,lowAlert:20},
-  {id:'r-ffinger',name:'Fish Finger Frozen',emoji:'🐟',cat:'Fish',trackBy:'Piece',stock:25,packSize:25,costPerPack:800,lowAlert:8},
-  {id:'r-ffry',name:'Fish Fry Frozen',emoji:'🐟',cat:'Fish',trackBy:'Piece',stock:10,packSize:10,costPerPack:800,lowAlert:3},
-];
+// ⭐ YOUR GOOGLE SCRIPT BACKEND
+const API_URL = "https://script.google.com/macros/s/AKfycbx6gFmacoYe1sfKrDWUPakJe6rTXSL8DjOKl64zpZqZKLZmtJsFusJpuY3E3ntlQik7/exec";
 
-// ═══════════════════════════════════════════════════════
-// MENU — exact data from Excel Sheet 1
-// ═══════════════════════════════════════════════════════
-const MENU = [
-  {id:'m-milktea',name:'Milk Tea',emoji:'🍵',cat:'Beverages',price:15,recipe:[{id:'r-tea-ctc',qty:2.5,unit:'GM'},{id:'r-milk',qty:83,unit:'ML'},{id:'r-sugar',qty:2,unit:'GM'}]},
-  {id:'m-djtea',name:'Darjeeling Tea',emoji:'🍵',cat:'Beverages',price:35,recipe:[{id:'r-tea-flv',qty:2,unit:'GM'},{id:'r-sugar',qty:2,unit:'GM'}]},
-  {id:'m-coffee',name:'Coffee',emoji:'☕',cat:'Beverages',price:40,recipe:[{id:'r-coffee',qty:3,unit:'GM'},{id:'r-milk',qty:180,unit:'ML'}]},
-  {id:'m-boilegg',name:'Boiled Egg',emoji:'🥚',cat:'Breakfast',price:15,recipe:[{id:'r-egg',qty:1,unit:'Piece'},{id:'r-salt',qty:0.5,unit:'GM'},{id:'r-bpepper',qty:0.5,unit:'GM'}]},
-  {id:'m-poach1',name:'Poach (Single)',emoji:'🥚',cat:'Breakfast',price:25,recipe:[{id:'r-egg',qty:1,unit:'Piece'},{id:'r-oil',qty:10,unit:'ML'},{id:'r-salt',qty:0.5,unit:'GM'},{id:'r-bpepper',qty:0.5,unit:'GM'}]},
-  {id:'m-poach2',name:'Poach (Double)',emoji:'🥚',cat:'Breakfast',price:49,recipe:[{id:'r-egg',qty:2,unit:'Piece'},{id:'r-oil',qty:10,unit:'ML'},{id:'r-salt',qty:0.5,unit:'GM'},{id:'r-bpepper',qty:0.5,unit:'GM'}]},
-  {id:'m-oml1',name:'Omelette (Single)',emoji:'🍳',cat:'Breakfast',price:25,recipe:[{id:'r-egg',qty:1,unit:'Piece'},{id:'r-oil',qty:10,unit:'ML'},{id:'r-salt',qty:0.5,unit:'GM'},{id:'r-bpepper',qty:0.5,unit:'GM'}]},
-  {id:'m-oml2',name:'Omelette (Double)',emoji:'🍳',cat:'Breakfast',price:49,recipe:[{id:'r-egg',qty:2,unit:'Piece'},{id:'r-oil',qty:10,unit:'ML'},{id:'r-salt',qty:0.5,unit:'GM'},{id:'r-bpepper',qty:0.5,unit:'GM'}]},
-  {id:'m-btoast',name:'Butter Toast',emoji:'🍞',cat:'Breakfast',price:25,recipe:[{id:'r-bread',qty:2,unit:'Piece'},{id:'r-butter',qty:7,unit:'GM'},{id:'r-bpepper',qty:1,unit:'GM'},{id:'r-sugar',qty:1,unit:'GM'}]},
-  {id:'m-maggi',name:'Maggi (Plain)',emoji:'🍜',cat:'Snacks',price:49,recipe:[{id:'r-maggi',qty:1,unit:'Piece'},{id:'r-onion',qty:10,unit:'GM'},{id:'r-garlic',qty:5,unit:'GM'},{id:'r-gchilli',qty:2,unit:'GM'},{id:'r-butter',qty:5,unit:'GM'},{id:'r-ketchup',qty:5,unit:'GM'}]},
-  {id:'m-maggiegg',name:'Maggi (Egg)',emoji:'🍜',cat:'Snacks',price:65,recipe:[{id:'r-maggi',qty:1,unit:'Piece'},{id:'r-onion',qty:10,unit:'GM'},{id:'r-garlic',qty:5,unit:'GM'},{id:'r-gchilli',qty:2,unit:'GM'},{id:'r-butter',qty:5,unit:'GM'},{id:'r-ketchup',qty:5,unit:'GM'},{id:'r-egg',qty:1,unit:'Piece'},{id:'r-oil',qty:10,unit:'ML'}]},
-  {id:'m-fff',name:'French Fry',emoji:'🍟',cat:'Frozen',price:89,recipe:[{id:'r-fff',qty:150,unit:'GM'},{id:'r-onion',qty:10,unit:'GM'},{id:'r-cucumb',qty:10,unit:'GM'},{id:'r-ketchup',qty:10,unit:'GM'},{id:'r-chaat',qty:2,unit:'GM'}]},
-  {id:'m-ppops',name:'Potato Pops',emoji:'🟡',cat:'Frozen',price:89,recipe:[{id:'r-ppops',qty:10,unit:'Piece'},{id:'r-onion',qty:10,unit:'GM'},{id:'r-cucumb',qty:10,unit:'GM'},{id:'r-ketchup',qty:10,unit:'GM'},{id:'r-chaat',qty:2,unit:'GM'}]},
-  {id:'m-atikki',name:'Aloo Tikki',emoji:'🫕',cat:'Frozen',price:89,recipe:[{id:'r-atikki',qty:4,unit:'Piece'},{id:'r-onion',qty:10,unit:'GM'},{id:'r-cucumb',qty:10,unit:'GM'},{id:'r-ketchup',qty:10,unit:'GM'},{id:'r-chaat',qty:2,unit:'GM'}]},
-  {id:'m-cfinger',name:'Chicken Finger',emoji:'🍗',cat:'Chicken',price:99,recipe:[{id:'r-cfinger',qty:4,unit:'Piece'},{id:'r-onion',qty:10,unit:'GM'},{id:'r-cucumb',qty:10,unit:'GM'},{id:'r-ketchup',qty:10,unit:'GM'},{id:'r-chaat',qty:2,unit:'GM'}]},
-  {id:'m-cnuggets',name:'Chicken Nuggets',emoji:'🍗',cat:'Chicken',price:99,recipe:[{id:'r-cnugg',qty:5,unit:'Piece'},{id:'r-onion',qty:10,unit:'GM'},{id:'r-cucumb',qty:10,unit:'GM'},{id:'r-ketchup',qty:10,unit:'GM'},{id:'r-chaat',qty:2,unit:'GM'}]},
-  {id:'m-cpopcorn',name:'Chicken Popcorn',emoji:'🍗',cat:'Chicken',price:99,recipe:[{id:'r-cpopcorn',qty:10,unit:'Piece'},{id:'r-onion',qty:10,unit:'GM'},{id:'r-cucumb',qty:10,unit:'GM'},{id:'r-ketchup',qty:10,unit:'GM'},{id:'r-chaat',qty:2,unit:'GM'}]},
-  {id:'m-ffinger',name:'Fish Finger',emoji:'🐟',cat:'Fish',price:159,recipe:[{id:'r-ffinger',qty:4,unit:'Piece'},{id:'r-onion',qty:10,unit:'GM'},{id:'r-cucumb',qty:10,unit:'GM'},{id:'r-ketchup',qty:10,unit:'GM'},{id:'r-chaat',qty:2,unit:'GM'}]},
-  {id:'m-ffry',name:'Fish Fry',emoji:'🐟',cat:'Fish',price:149,recipe:[{id:'r-ffry',qty:1,unit:'Piece'},{id:'r-onion',qty:10,unit:'GM'},{id:'r-cucumb',qty:10,unit:'GM'},{id:'r-ketchup',qty:10,unit:'GM'},{id:'r-chaat',qty:2,unit:'GM'}]},
-];
 
-// ═══════════════════════════════════════════════════════
-// STATE — persisted in localStorage (phone memory)
-// ═══════════════════════════════════════════════════════
-let raw      = JSON.parse(localStorage.getItem('ceb_raw')  || 'null') || JSON.parse(JSON.stringify(DEFAULT_RAW));
-let orders   = JSON.parse(localStorage.getItem('ceb_ord')  || '[]');
-let done     = JSON.parse(localStorage.getItem('ceb_done') || '[]');
-let expenses = JSON.parse(localStorage.getItem('ceb_exp')  || '[]');
-let hist     = JSON.parse(localStorage.getItem('ceb_hist') || '[]');
+// =====================
+// LOCAL STORAGE
+// =====================
+let stock = JSON.parse(localStorage.getItem("ceb_stock") || "{}");
 
-let cart={}, editId=null, selEmo='❄️', curCat='all', ordF='open', curPg='orders', bulkD={};
-
-// ═══════════════════════════════════════════════════════
-// UTILITIES
-// ═══════════════════════════════════════════════════════
-function uid(){ return Date.now().toString(36)+Math.random().toString(36).slice(2,5); }
-function today(){ return new Date().toLocaleDateString('en-IN'); }
-function ts(){ return new Date().toLocaleString('en-IN',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit',hour12:true}); }
-function f(n){ return typeof n==='number'?(Number.isInteger(n)?n:parseFloat(n.toFixed(1))):n; }
-
-function save(){
-  localStorage.setItem('ceb_raw',  JSON.stringify(raw));
-  localStorage.setItem('ceb_ord',  JSON.stringify(orders));
-  localStorage.setItem('ceb_done', JSON.stringify(done));
-  localStorage.setItem('ceb_exp',  JSON.stringify(expenses));
-  localStorage.setItem('ceb_hist', JSON.stringify(hist));
+function saveLocal(){
+  localStorage.setItem("ceb_stock", JSON.stringify(stock));
 }
-// ===== CLOUD LOAD =====
-async function cloudLoad() {
-  try {
-    const res = await fetch(API_URL);
+
+
+// =====================
+// ADD / UPDATE STOCK
+// =====================
+async function addStock(){
+  const item = document.getElementById("item").value.trim();
+  const qty = parseInt(document.getElementById("qty").value);
+
+  if(!item || !qty){
+    alert("Enter item and quantity");
+    return;
+  }
+
+  stock[item] = (stock[item] || 0) + qty;
+
+  saveLocal();
+  await saveCloud();
+
+  alert("Saved & synced!");
+}
+
+
+// =====================
+// SAVE TO CLOUD
+// =====================
+async function saveCloud(){
+  await fetch(API_URL,{
+    method:"POST",
+    mode:"no-cors",
+    headers:{ "Content-Type":"application/json" },
+    body:JSON.stringify({
+      type:"saveStock",
+      stock
+    })
+  });
+}
+
+
+// =====================
+// LOAD FROM CLOUD
+// =====================
+async function loadStock(){
+  try{
+    const res = await fetch(API_URL + "?type=loadStock");
     const data = await res.json();
 
-    if (data.stock) raw = data.stock;
-    if (data.orders) orders = data.orders;
-    if (data.expenses) expenses = data.expenses;
-
-    save();
-    refresh();
-    console.log("Cloud data loaded");
-  } catch (e) {
-    console.log("Cloud load failed — using local data");
-  }
-}
-
-// ===== CLOUD SAVE =====
-async function cloudSave() {
-  try {
-    await fetch(API_URL, {
-      method: "POST",
-      body: JSON.stringify({
-        type: "updateStock",
-        rows: raw
-      })
-    });
-    console.log("Cloud stock saved");
-  } catch (e) {
-    console.log("Cloud save failed");
-  }
-}
-// ═══════════════════════════════════════════════════════
-// STOCK HELPERS
-// ═══════════════════════════════════════════════════════
-function status(r){ if(r.stock<=0) return 'out'; if(r.stock<=r.lowAlert) return 'low'; return 'ok'; }
-function dispStock(r){
-  if(r.trackBy==='GM') return r.stock>=1000?f(r.stock/1000)+'kg':f(r.stock)+'gm';
-  if(r.trackBy==='ML') return r.stock>=1000?f(r.stock/1000)+'L':f(r.stock)+'ml';
-  return f(r.stock)+' pcs';
-}
-function dispUnit(r){ return r.trackBy==='GM'?'gm':r.trackBy==='ML'?'ml':'pcs'; }
-function dispPack(r){
-  if(r.trackBy==='GM') return r.packSize>=1000?(r.packSize/1000)+'kg/pk':r.packSize+'gm/pk';
-  if(r.trackBy==='ML') return r.packSize>=1000?(r.packSize/1000)+'L/pk':r.packSize+'ml/pk';
-  return r.packSize+' pcs/pk';
-}
-function canMake(mi){
-  for(const r of mi.recipe){
-    const raw_i=raw.find(x=>x.id===r.id); if(!raw_i) continue;
-    if(raw_i.stock < r.qty) return false;
-  }
-  return true;
-}
-function deduct(order){
-  const need={};
-  for(const oi of order.items){
-    const mi=MENU.find(m=>m.id===oi.menuId); if(!mi) continue;
-    for(const r of mi.recipe){
-      if(!need[r.id]) need[r.id]=0;
-      need[r.id]+=r.qty*oi.qty;
+    if(data.stock){
+      stock = data.stock;
+      saveLocal();
     }
+
+    document.getElementById("out").textContent =
+      JSON.stringify(stock, null, 2);
+
+  }catch(e){
+    alert("Cloud load failed");
   }
-  const log=[];
-  for(const [id,qty] of Object.entries(need)){
-    const r=raw.find(x=>x.id===id); if(!r) continue;
-    const prev=r.stock;
-    r.stock=Math.max(0,r.stock-qty);
-    log.push(`${r.name} −${f(qty)}${dispUnit(r)} (${f(prev)}→${f(r.stock)})`);
-  }
-  hist.unshift({id:uid(),msg:`✅ ${order.tableLabel} completed`,detail:log.join(' | '),time:ts()});
-  cloudSave();
 }
 
-// ═══════════════════════════════════════════════════════
-// SPLASH
-// ═══════════════════════════════════════════════════════
-function enterApp(){
-  document.getElementById('splash').classList.add('hide');
-  document.getElementById('mainHdr').style.display='';
-  document.getElementById('mainNav').style.display='';
-  setTimeout(()=>{ document.getElementById('splash').style.display='none'; },600);
-  localStorage.setItem('ceb_entered','1');
-}
-if(localStorage.getItem('ceb_entered')){
-  document.getElementById('splash').style.display='none';
-  document.getElementById('mainHdr').style.display='';
-  document.getElementById('mainNav').style.display='';
+
+// =====================
+// CLEAR LOCAL
+// =====================
+function clearLocal(){
+  localStorage.removeItem("ceb_stock");
+  stock = {};
+  document.getElementById("out").textContent = "Local cache cleared";
 }
 
-// ═══════════════════════════════════════════════════════
-// HEADER
-// ═══════════════════════════════════════════════════════
-function updateHdr(){
-  const openCnt=orders.filter(o=>o.status!=='completed').length;
-  const todayRev=done.filter(o=>o.cDate===today()).reduce((s,o)=>s+o.total,0);
-  const low=raw.filter(r=>status(r)==='low').length;
-  const out=raw.filter(r=>r.stock<=0).length;
-  document.getElementById('sh-ord').textContent=openCnt;
-  document.getElementById('sh-rev').textContent='₹'+todayRev;
-  document.getElementById('sh-low').textContent=low;
-  document.getElementById('sh-out').textContent=out;
-  bdg('nb-ord-b',openCnt); bdg('nb-stk-b',out); bdg('nb-rst-b',low+out);
-}
-function bdg(id,n){ const e=document.getElementById(id);if(!e)return;e.textContent=n;n>0?e.classList.add('on'):e.classList.remove('on'); }
 
-// ═══════════════════════════════════════════════════════
-// NAVIGATION
-// ═══════════════════════════════════════════════════════
-function switchPage(name,btn){
-  curPg=name;
-  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-  document.getElementById('page-'+name).classList.add('active');
-  document.querySelectorAll('.nb').forEach(b=>b.classList.remove('active')); btn.classList.add('active');
-  const fab=document.getElementById('fabBtn'), hb=document.getElementById('hbtn');
-  if(name==='orders'){ fab.style.display='flex'; fab.onclick=openNewOrder; hb.textContent='+ New Order'; hb.onclick=openNewOrder; }
-  else if(name==='manage'){ fab.style.display='flex'; fab.onclick=openAddItem; hb.textContent='+ Add Item'; hb.onclick=openAddItem; }
-  else { fab.style.display='none'; hb.textContent='+ New Order'; hb.onclick=openNewOrder; }
-  refresh();
-}
+// =====================
+// AUTO LOAD ON START
+// =====================
+window.onload = loadStock;
 
-// ═══════════════════════════════════════════════════════
-// ORDERS PAGE
-// ═══════════════════════════════════════════════════════
-function setOF(btn){ ordF=btn.dataset.f; document.querySelectorAll('#ordTabs .tab').forEach(t=>t.classList.remove('active')); btn.classList.add('active'); renderOrders(); }
-
-function renderOrders(){
-  const open=orders.filter(o=>o.status!=='completed');
-  document.getElementById('cnt-open').textContent=open.length;
-  document.getElementById('cnt-all').textContent=orders.length;
-  const tables=['T1','T2','T3','T4','T5','T6','T7','T8','Parcel'];
-  document.getElementById('tblGrid').innerHTML=tables.map(t=>{
-    const o=open.find(x=>x.table===t);
-    const lbl=t==='Parcel'?'Parcel':'Table '+t.replace('T','');
-    if(o) return `<div class="tcell occ" onclick="expandOrd('${o.id}')"><div class="tbdg">OPEN</div><div class="tnum">${t==='Parcel'?'📦':t.replace('T','')}</div><div class="tlbl">${lbl}</div><div class="tamt">₹${o.total}</div></div>`;
-    return `<div class="tcell" onclick="openNewOrderForTable('${t}')"><div class="tnum" style="color:var(--bdf);font-size:16px">＋</div><div class="tlbl">${lbl}</div><div class="tamt" style="color:var(--bdf)">Empty</div></div>`;
-  }).join('');
-  const show=ordF==='open'?open:orders;
-  const el=document.getElementById('ordCards');
-  if(!show.length){ el.innerHTML=`<div class="empty"><div class="ei">🛎️</div><div class="et">No ${ordF==='open'?'open ':''}orders</div><div class="es">Tap a table or + to start</div></div>`; return; }
-  el.innerHTML=show.map(o=>`
-    <div class="ocard">
-      <div class="ocard-hd" onclick="toggleOrd('${o.id}')">
-        <div class="ocard-tbl">${o.tableLabel} <span>${o.time}</span></div>
-        <div style="display:flex;align-items:center;gap:9px">
-          <span class="ocard-tot">₹${o.total}</span>
-          <span style="color:var(--txf);font-size:11px" id="chev-${o.id}">▼</span>
-        </div>
-      </div>
-      <div id="obody-${o.id}" style="display:none">
-        <div class="ocard-body">
-          ${o.items.map(oi=>`<div class="ocard-row"><div style="font-size:17px;width:22px;text-align:center">${oi.emoji}</div><div class="ocard-nm">${oi.name}</div><div class="ocard-qty">×${oi.qty}</div><div class="ocard-px">₹${oi.price*oi.qty}</div></div>`).join('')}
-        </div>
-        ${o.status!=='completed'?`<div class="ocard-foot"><button class="btn-done" onclick="markDone('${o.id}')">✓ Complete & Deduct Stock</button><button class="btn-cxl" onclick="cancelOrd('${o.id}')">✕</button></div>`:`<div style="padding:8px 14px 12px;font-size:12px;color:var(--green);font-weight:700">✅ Completed ${o.cTime||''}</div>`}
-      </div>
-    </div>`).join('');
-}
-function toggleOrd(id){ const b=document.getElementById('obody-'+id),c=document.getElementById('chev-'+id); const open=b.style.display==='block'; b.style.display=open?'none':'block'; if(c)c.textContent=open?'▼':'▲'; }
-function expandOrd(id){ toggleOrd(id); }
-function markDone(id){
-  const o=orders.find(x=>x.id===id); if(!o)return;
-  deduct(o);
-  o.status='completed'; o.cDate=today(); o.cTime=ts();
-  done.unshift(o);
-  orders=orders.filter(x=>x.id!==id);
-  save(); refresh();
-  toast(`✅ ${o.tableLabel} completed! ₹${o.total} · Stock updated`,'green');
-}
-function cancelOrd(id){
-  const o=orders.find(x=>x.id===id);
-  if(!confirm(`Cancel order for ${o.tableLabel}?`))return;
-  orders=orders.filter(x=>x.id!==id);
-  save(); refresh();
-  toast('🗑 Order cancelled','red');
-}
-function openNewOrderForTable(t){ cart={}; document.getElementById('tblSel').value=t; buildMenuModal(); document.getElementById('moOrd').classList.add('open'); }
-
-// ═══════════════════════════════════════════════════════
-// ORDER MODAL
-// ═══════════════════════════════════════════════════════
-function openNewOrder(){ cart={}; document.getElementById('tblSel').value=''; buildMenuModal(); document.getElementById('moOrd').classList.add('open'); }
-function buildMenuModal(){
-  const cats=[...new Set(MENU.map(m=>m.cat))];
-  document.getElementById('moMenuList').innerHTML=cats.map(cat=>`
-    <div class="mnsec"><div class="mnsttl">${cat}</div>
-      ${MENU.filter(m=>m.cat===cat).map(mi=>{
-        const avail=canMake(mi), inCart=cart[mi.id]||0;
-        return `<div class="mnitem"><div class="mn-em">${mi.emoji}</div>
-          <div style="flex:1"><div class="mn-nm">${mi.name}</div><div class="mn-px">₹${mi.price}${!avail?' <span class="mn-oos">· Low stock</span>':''}</div></div>
-          ${inCart>0?`<div class="mnctls"><button class="cb m" onclick="adjCart('${mi.id}',-1)">−</button><span class="mnqty">${inCart}</span><button class="cb p" onclick="adjCart('${mi.id}',1)">+</button></div>`
-          :`<button class="mnadd ${avail?'':'oos'}" onclick="${avail?`adjCart('${mi.id}',1)`:'void(0)'}" ${avail?'':'disabled'}>+</button>`}
-        </div>`;
-      }).join('')}
-    </div>`).join('');
-  updateCartUI();
-}
-function adjCart(mid,d){ const c=cart[mid]||0,nv=Math.max(0,c+d); if(nv===0)delete cart[mid]; else cart[mid]=nv; buildMenuModal(); }
-function updateCartUI(){
-  const keys=Object.keys(cart), cs=document.getElementById('cartSec');
-  if(!keys.length){cs.style.display='none';return;}
-  cs.style.display='block';
-  const tot=keys.reduce((s,mid)=>{const mi=MENU.find(m=>m.id===mid);return s+(mi?mi.price*cart[mid]:0);},0);
-  document.getElementById('cartTot').textContent='₹'+tot;
-  document.getElementById('cartItems').innerHTML=keys.map(mid=>{
-    const mi=MENU.find(m=>m.id===mid);if(!mi)return'';
-    return `<div class="ci"><div style="font-size:18px">${mi.emoji}</div><div class="ci-nm">${mi.name}</div><div class="ci-px">₹${mi.price*cart[mid]}</div>
-      <div class="mnctls"><button class="cb m" onclick="adjCart('${mid}',-1)">−</button><span class="mnqty">${cart[mid]}</span><button class="cb p" onclick="adjCart('${mid}',1)">+</button></div></div>`;
-  }).join('');
-}
-function placeOrder(){
-  const tbl=document.getElementById('tblSel').value;
-  if(!tbl){toast('Select a table first','red');return;}
-  if(!Object.keys(cart).length){toast('Add items first','red');return;}
-  if(orders.find(o=>o.table===tbl&&o.status!=='completed')){toast('Table already has an open order!','red');return;}
-  const items=Object.keys(cart).map(mid=>{const mi=MENU.find(m=>m.id===mid);return{menuId:mid,name:mi.name,emoji:mi.emoji,qty:cart[mid],price:mi.price};});
-  const tot=items.reduce((s,i)=>s+i.price*i.qty,0);
-  const lbl=tbl==='Parcel'?'📦 Parcel':'Table '+tbl.replace('T','');
-  const o={id:uid(),table:tbl,tableLabel:lbl,items,total:tot,status:'active',time:ts(),date:today()};
-  orders.push(o);
-  hist.unshift({id:uid(),msg:`🛎️ New order ${lbl}`,detail:items.map(i=>`${i.name}×${i.qty}`).join(', ')+' · ₹'+tot,time:ts()});
-  save(); refresh(); closeMo('moOrd');
-  toast(`🛎️ Order placed — ${lbl} ₹${tot}`,'green');
-}
-
-// ═══════════════════════════════════════════════════════
-// STOCK PAGE
-// ═══════════════════════════════════════════════════════
-function renderCatTabs(){
-  const cats=['all',...new Set(raw.map(r=>r.cat))];
-  document.getElementById('catTabs').innerHTML=cats.map(c=>
-    `<button class="tab ${c===curCat?'active':''}" onclick="setCat(this,'${c}')">${c==='all'?'All':c} <span class="tc">${c==='all'?raw.length:raw.filter(r=>r.cat===c).length}</span></button>`).join('');
-}
-function setCat(btn,c){curCat=c;renderCatTabs();renderStock();}
-
-function renderStock(){
-  const q=document.getElementById('srchIn').value.toLowerCase();
-  const items=raw.filter(r=>(curCat==='all'||r.cat===curCat)&&(!q||r.name.toLowerCase().includes(q)||r.cat.toLowerCase().includes(q)));
-  const out=raw.filter(r=>r.stock<=0), low=raw.filter(r=>status(r)==='low');
-  let ah='';
-  if(out.length) ah+=`<div class="alb red"><span style="font-size:20px">🚨</span><div><div class="alb-t">${out.length} Out of Stock</div><div class="alb-s">${out.map(r=>r.name).join(', ')}</div></div></div>`;
-  if(low.length) ah+=`<div class="alb amber"><span style="font-size:20px">⚠️</span><div><div class="alb-t">${low.length} Running Low</div><div class="alb-s">${low.map(r=>r.name).join(', ')}</div></div></div>`;
-  document.getElementById('alertsBox').innerHTML=ah;
-  if(!items.length){document.getElementById('stockList').innerHTML=`<div class="empty"><div class="ei">🔍</div><div class="et">Nothing found</div></div>`;return;}
-  document.getElementById('stockList').innerHTML=items.map(r=>renderSC(r)).join('');
-}
-
-function renderSC(r){
-  const st=status(r), du=dispUnit(r);
-  const fullPacks=Math.floor(r.stock/r.packSize);
-  const rem=r.stock%r.packSize;
-  const remStr=rem>0?`+${f(rem)}${du} open`:'';
-  const pct=r.lowAlert>0?Math.min(100,Math.round(r.stock/(r.lowAlert*4)*100)):Math.min(100,Math.round((r.stock/r.packSize)*100/3));
-  const fc=st==='ok'?'var(--green)':st==='low'?'var(--amber)':'var(--red)';
-  const warn=st==='low'?`<div class="scard-warn ye">⚠️ Low — only ${dispStock(r)} remaining</div>`:st==='out'?`<div class="scard-warn rd">🚨 OUT OF STOCK — reorder now!</div>`:'';
-  return `<div class="scard">
-    <div class="scard-top"><div class="scard-emo">${r.emoji}</div><div style="flex:1;min-width:0"><div class="scard-nm">${r.name}</div><div class="scard-sub">${r.cat} · ₹${r.costPerPack}/${dispPack(r)}</div></div><div class="sdot ${st}"></div></div>
-    <div class="scard-meters">
-      <div class="sm"><div class="sm-lbl">${r.trackBy==='Piece'?'Pieces':r.trackBy==='ML'?'Volume':'Weight'}</div><div class="sm-row"><div><span class="sm-val">${f(r.stock)}</span><div class="sm-unit">${du}</div></div><div class="sm-btns"><button class="sb m" onclick="adjU('${r.id}',-1)">−1</button><button class="sb p" onclick="adjU('${r.id}',1)">+1</button></div></div><div class="sm-bar"><div class="sm-fill" style="width:${pct}%;background:${fc}"></div></div></div>
-      <div class="sm"><div class="sm-lbl">Packs</div><div class="sm-row"><div><span class="sm-val">${fullPacks}</span><div class="sm-unit">${remStr||dispPack(r)}</div></div><div class="sm-btns"><button class="sb m" onclick="adjPk('${r.id}',-1)">−pk</button><button class="sb p" onclick="adjPk('${r.id}',1)">+pk</button></div></div></div>
-    </div>${warn}</div>`;
-}
-
-function adjU(id,d){ const r=raw.find(x=>x.id===id);if(!r)return; r.stock=Math.max(0,r.stock+d); hist.unshift({id:uid(),msg:`${d>0?'+':''}${d} ${dispUnit(r)} — ${r.name}`,time:ts()}); save();refresh(); toast(`${d>0?'Added':'Removed'} 1${dispUnit(r)} of ${r.name}`,d>0?'green':'red'); }
-function adjPk(id,d){ const r=raw.find(x=>x.id===id);if(!r)return; const delta=d*r.packSize; r.stock=Math.max(0,r.stock+delta); hist.unshift({id:uid(),msg:`${d>0?'+':'-'}1 pack (${f(Math.abs(delta))}${dispUnit(r)}) — ${r.name}`,time:ts()}); save();refresh(); toast(`${d>0?'Added':'Removed'} 1 pack of ${r.name}`,d>0?'green':'red'); }
-
-// ═══════════════════════════════════════════════════════
-// RESTOCK PAGE
-// ═══════════════════════════════════════════════════════
-function renderRestock(){
-  const need=raw.filter(r=>status(r)!=='ok');
-  const el=document.getElementById('restockList');
-  if(!need.length){el.innerHTML=`<div class="empty"><div class="ei">✅</div><div class="et">All stocked up!</div></div>`;return;}
-  el.innerHTML=need.map(r=>`
-    <div class="rcard"><div class="rcard-top"><div style="font-size:26px">${r.emoji}</div><div><div class="rcard-nm">${r.name}</div><div class="rcard-st" style="color:${status(r)==='out'?'var(--red)':'var(--amber)'}">${status(r)==='out'?'Out of stock':'Low: '+dispStock(r)+' left'} · Alert ≤${f(r.lowAlert)}${dispUnit(r)}</div></div></div>
-    <div class="rcard-row"><input class="rcard-in" id="ri-${r.id}" type="number" min="1" placeholder="Packs to add"><div class="rcard-unit">${dispPack(r)}</div><button class="rcard-btn" onclick="doRestock('${r.id}')">+ Add</button></div></div>`).join('');
-}
-function doRestock(id){
-  const r=raw.find(x=>x.id===id);
-  const n=parseInt(document.getElementById('ri-'+id).value)||0;
-  if(n<=0){toast('Enter number of packs','red');return;}
-  const add=n*r.packSize, prev=r.stock;
-  r.stock+=add;
-  hist.unshift({id:uid(),msg:`Restocked ${n} pack${n>1?'s':''} — ${r.name}`,detail:`${f(prev)}→${f(r.stock)} ${dispUnit(r)}`,time:ts()});
-  save();refresh();
-  toast(`✅ +${n} pack${n>1?'s':''} of ${r.name}`,'green');
-}
-
-// ═══════════════════════════════════════════════════════
-// ANALYTICS PAGE
-// ═══════════════════════════════════════════════════════
-function renderAnalytics(){
-  const td=done.filter(o=>o.cDate===today());
-  const tdRev=td.reduce((s,o)=>s+o.total,0);
-  const allRev=done.reduce((s,o)=>s+o.total,0);
-  const tdExp=expenses.filter(e=>e.date===today()).reduce((s,e)=>s+e.amt,0);
-  const allExp=expenses.reduce((s,e)=>s+e.amt,0);
-  const tdProfit=tdRev-tdExp;
-
-  document.getElementById('salesSum').innerHTML=`
-    <div class="acard-ttl">Sales Overview</div>
-    <div class="arow"><span class="al">Today's Orders</span><span class="av">${td.length}</span></div>
-    <div class="arow big"><span class="al">Today's Revenue</span><span class="av">₹${tdRev}</span></div>
-    <div class="arow"><span class="al">All-time Revenue</span><span class="av blue">₹${allRev}</span></div>
-    <div class="arow"><span class="al">Total Completed</span><span class="av">${done.length}</span></div>`;
-
-  document.getElementById('expenseSum').innerHTML=`
-    <div class="acard-ttl">Expenses & Profit</div>
-    <div class="arow"><span class="al">Today's Expenses</span><span class="av red">₹${tdExp}</span></div>
-    <div class="arow"><span class="al">All-time Expenses</span><span class="av red">₹${allExp}</span></div>
-    <div class="arow big"><span class="al">Today's Profit</span><span class="av" style="color:${tdProfit>=0?'var(--green)':'var(--red)'}">₹${tdProfit}</span></div>
-    <div class="arow"><span class="al">All-time Profit</span><span class="av" style="color:${(allRev-allExp)>=0?'var(--green)':'var(--red)'}">₹${allRev-allExp}</span></div>`;
-
-  const sl=document.getElementById('salesList');
-  if(!done.length){sl.innerHTML=`<div class="empty"><div class="ei">💰</div><div class="et">No completed orders yet</div></div>`;} 
-  else {sl.innerHTML=done.slice(0,20).map(o=>`<div class="hi"><div style="font-size:17px;margin-top:1px">✅</div><div class="hi-tx"><div class="hi-main">${o.tableLabel}</div><div class="hi-sub">${o.items.map(i=>`${i.name}×${i.qty}`).join(', ')}</div><div class="hi-sub">${o.cTime||o.time}</div></div><div class="hi-amt">₹${o.total}</div></div>`).join('');}
-
-  const el=document.getElementById('expensesList');
-  if(!expenses.length){el.innerHTML=`<div class="empty"><div class="ei">📝</div><div class="et">No expenses yet</div></div>`;}
-  else {el.innerHTML=expenses.slice(0,20).map(e=>`<div class="ecard"><div style="font-size:18px">💸</div><div style="flex:1"><div class="ecard-nm">${e.desc}</div><div class="ecard-sub">${e.time}</div></div><div class="ecard-amt">−₹${e.amt}</div><button class="ecard-del" onclick="delExpense('${e.id}')">🗑</button></div>`).join('');}
-}
-
-// ═══════════════════════════════════════════════════════
-// EXPENSES
-// ═══════════════════════════════════════════════════════
-function addExpense(){
-  const desc=document.getElementById('exp-desc').value.trim();
-  const amt=parseFloat(document.getElementById('exp-amt').value)||0;
-  if(!desc||!amt){toast('Enter description & amount','red');return;}
-  expenses.unshift({id:uid(),desc,amt,date:today(),time:ts()});
-  document.getElementById('exp-desc').value='';
-  document.getElementById('exp-amt').value='';
-  save(); refresh();
-  toast(`💸 Expense added: ₹${amt}`,'red');
-}
-function delExpense(id){
-  if(!confirm('Delete this expense?'))return;
-  expenses=expenses.filter(e=>e.id!==id);
-  save(); refresh();
-  toast('🗑 Expense removed','red');
-}
-
-// ═══════════════════════════════════════════════════════
-// BULK USE
-// ═══════════════════════════════════════════════════════
-function openBulk(){
-  bulkD={};
-  document.getElementById('bulkList').innerHTML=raw.map(r=>`
-    <div class="burow"><div style="font-size:21px">${r.emoji}</div><div style="flex:1"><div class="buname">${r.name}</div><div class="bust">${dispStock(r)} in stock</div></div>
-    <div style="display:flex;align-items:center;gap:6px"><button class="sb m" onclick="adjB('${r.id}',-1)">−</button><span class="buval" id="bv-${r.id}">0</span><button class="sb p" onclick="adjB('${r.id}',1)">+</button></div></div>`).join('');
-  document.getElementById('moBulk').classList.add('open');
-}
-function adjB(id,d){ if(!bulkD[id])bulkD[id]=0; const r=raw.find(x=>x.id===id); bulkD[id]=Math.max(0,Math.min(bulkD[id]+d,r.stock)); document.getElementById('bv-'+id).textContent=bulkD[id]; }
-function applyBulk(){
-  let n=0;
-  for(const[id,qty] of Object.entries(bulkD)){
-    if(qty>0){const r=raw.find(x=>x.id===id);if(!r)continue;const prev=r.stock;r.stock=Math.max(0,r.stock-qty);hist.unshift({id:uid(),msg:`Used ${f(qty)}${dispUnit(r)} — ${r.name}`,detail:`${f(prev)}→${f(r.stock)}`,time:ts()});n++;}
-  }
-  if(!n){toast('No changes made','red');return;}
-  save();refresh();closeMo('moBulk');
-  toast(`✅ Updated ${n} item${n>1?'s':''}`,'green');
-}
-
-// ═══════════════════════════════════════════════════════
-// MANAGE PAGE
-// ═══════════════════════════════════════════════════════
-function renderManage(){
-  document.getElementById('manageTtl').textContent=`Raw Materials (${raw.length})`;
-  document.getElementById('manageList').innerHTML=raw.map(r=>`
-    <div class="mitem"><div class="mrow"><div style="font-size:24px">${r.emoji}</div><div class="minfo"><div class="mname">${r.name}</div><div class="msub">${r.cat} · ${dispStock(r)} · ${dispPack(r)} · ₹${r.costPerPack}/pack</div></div>
-    <div class="macts"><button class="abtn aedit" onclick="openEdit('${r.id}')">✏️</button><button class="abtn adel" onclick="delItem('${r.id}')">🗑</button></div></div></div>`).join('');
-}
-
-// ═══════════════════════════════════════════════════════
-// ADD / EDIT RAW MATERIAL
-// ═══════════════════════════════════════════════════════
-const EMOJIS=['☕','🍵','🥛','🥚','🍳','🍞','🐟','🍗','🍟','❄️','🫕','🧆','🧄','🌶️','🧅','🫙','🍜','🥒','🧈','🧂','🍅','🟡','🌽','🥬'];
-function buildEG(sel){ document.getElementById('emojiGrid').innerHTML=EMOJIS.map(e=>`<div class="eo ${e===sel?'sel':''}" onclick="pickE('${e}',this)">${e}</div>`).join(''); }
-function pickE(e,el){ selEmo=e; document.querySelectorAll('.eo').forEach(x=>x.classList.remove('sel')); el.classList.add('sel'); }
-function updateTrackLbl(){ const u=document.getElementById('fi-track').value; document.getElementById('fi-pklbl').textContent=u==='Piece'?'Pieces per pack':u==='ML'?'Pack size (ml)':'Pack size (gm)'; }
-
-function openAddItem(){
-  editId=null; selEmo='❄️';
-  document.getElementById('moItemTitle').textContent='➕ Add Raw Material';
-  ['fi-name','fi-stock','fi-pack','fi-low','fi-cost'].forEach(id=>{const e=document.getElementById(id);if(e)e.value='';});
-  document.getElementById('fi-track').value='GM'; document.getElementById('fi-cat').value='Frozen';
-  updateTrackLbl(); buildEG('❄️');
-  document.getElementById('moItem').classList.add('open');
-}
-function openEdit(id){
-  const r=raw.find(x=>x.id===id); editId=id; selEmo=r.emoji;
-  document.getElementById('moItemTitle').textContent='✏️ Edit '+r.name;
-  document.getElementById('fi-name').value=r.name;
-  document.getElementById('fi-stock').value=r.stock;
-  document.getElementById('fi-pack').value=r.packSize;
-  document.getElementById('fi-low').value=r.lowAlert;
-  document.getElementById('fi-cost').value=r.costPerPack;
-  document.getElementById('fi-track').value=r.trackBy;
-  document.getElementById('fi-cat').value=r.cat;
-  updateTrackLbl(); buildEG(r.emoji);
-  document.getElementById('moItem').classList.add('open');
-}
-function saveItem(){
-  const name=document.getElementById('fi-name').value.trim();
-  if(!name){toast('Name required','red');return;}
-  const d={name,emoji:selEmo,cat:document.getElementById('fi-cat').value,trackBy:document.getElementById('fi-track').value,
-    stock:parseFloat(document.getElementById('fi-stock').value)||0,
-    packSize:parseFloat(document.getElementById('fi-pack').value)||1,
-    lowAlert:parseFloat(document.getElementById('fi-low').value)||0,
-    costPerPack:parseFloat(document.getElementById('fi-cost').value)||0};
-  if(editId){const i=raw.findIndex(x=>x.id===editId);raw[i]={...raw[i],...d};toast('✅ Updated!','green');}
-  else{raw.unshift({id:'r-'+uid(),...d});toast('✅ '+name+' added!','green');}
-  save();refresh();closeMo('moItem');
-}
-function delItem(id){
-  const r=raw.find(x=>x.id===id);
-  if(!confirm(`Delete "${r.name}"? This can't be undone.`))return;
-  raw=raw.filter(x=>x.id!==id); save();refresh();toast('🗑 Removed','red');
-}
-
-// ═══════════════════════════════════════════════════════
-// DATA MANAGEMENT
-// ═══════════════════════════════════════════════════════
-function exportData(){
-  const data={raw,orders,done,expenses,hist,exportedAt:new Date().toISOString()};
-  const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
-  const url=URL.createObjectURL(blob);
-  const a=document.createElement('a');
-  a.href=url; a.download=`cha-er-bari-backup-${new Date().toISOString().slice(0,10)}.json`;
-  a.click(); URL.revokeObjectURL(url);
-  toast('📥 Data exported!','green');
-}
-function importData(event){
-  const file=event.target.files[0]; if(!file)return;
-  const reader=new FileReader();
-  reader.onload=function(e){
-    try{
-      const data=JSON.parse(e.target.result);
-      if(data.raw) raw=data.raw;
-      if(data.orders) orders=data.orders;
-      if(data.done) done=data.done;
-      if(data.expenses) expenses=data.expenses;
-      if(data.hist) hist=data.hist;
-      save(); refresh();
-      toast('📤 Data imported successfully!','green');
-    }catch(err){toast('Error: Invalid file','red');}
-  };
-  reader.readAsText(file);
-  event.target.value='';
-}
-function resetStock(){
-  if(!confirm('Reset all raw materials to default values? This will overwrite current stock levels.'))return;
-  raw=JSON.parse(JSON.stringify(DEFAULT_RAW));
-  save(); refresh();
-  toast('🔄 Stock reset to default','green');
-}
-function clearAllData(){
-  if(!confirm('⚠️ This will DELETE all orders, expenses, and history. Are you sure?'))return;
-  if(!confirm('Really? This cannot be undone!'))return;
-  raw=JSON.parse(JSON.stringify(DEFAULT_RAW));
-  orders=[]; done=[]; expenses=[]; hist=[];
-  save(); refresh();
-  toast('🗑 All data cleared','red');
-}
-
-// ═══════════════════════════════════════════════════════
-// MODAL & TOAST
-// ═══════════════════════════════════════════════════════
-function closeMo(id,e){ if(!e||e.target===document.getElementById(id)) document.getElementById(id).classList.remove('open'); }
-
-let tT;
-function toast(msg,type='green'){
-  const e=document.getElementById('toast');
-  e.textContent=msg; e.style.background=type==='red'?'var(--red)':type==='green'?'var(--green)':'var(--tx)';
-  e.classList.add('on'); clearTimeout(tT); tT=setTimeout(()=>e.classList.remove('on'),2700);
-}
-
-// ═══════════════════════════════════════════════════════
-// INIT
-// ═══════════════════════════════════════════════════════
-function refresh(){
-  updateHdr();
-  if(curPg==='orders') renderOrders();
-  if(curPg==='stock'){renderCatTabs();renderStock();}
-  if(curPg==='restock') renderRestock();
-  if(curPg==='analytics') renderAnalytics();
-  if(curPg==='manage') renderManage();
-}
-
-// Set initial page
-document.getElementById('page-orders').classList.add('active');
-refresh();
-cloudLoad();
 </script>
 </body>
 </html>
