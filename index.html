@@ -724,6 +724,9 @@ select.fc { -webkit-appearance:none; cursor:pointer; }
 <div class="toast" id="toast"></div>
 
 <script>
+
+  // ☁️ CLOUD SYNC CONFIG (Google Sheets Backend)
+const API_URL = "https://script.google.com/macros/s/AKfycbxx0Pes9a6k13KY7Aso8tGzIbN5WvYvkd4g8roFKzg6CZlBZaBp0jtGpqIt8awizBtk/exec";
 // ═══════════════════════════════════════════════════════
 // RAW MATERIALS — exact data from Excel Sheet 2
 // ═══════════════════════════════════════════════════════
@@ -807,7 +810,39 @@ function save(){
   localStorage.setItem('ceb_exp',  JSON.stringify(expenses));
   localStorage.setItem('ceb_hist', JSON.stringify(hist));
 }
+// ===== CLOUD LOAD =====
+async function cloudLoad() {
+  try {
+    const res = await fetch(API_URL);
+    const data = await res.json();
 
+    if (data.stock) raw = data.stock;
+    if (data.orders) orders = data.orders;
+    if (data.expenses) expenses = data.expenses;
+
+    save();
+    refresh();
+    console.log("Cloud data loaded");
+  } catch (e) {
+    console.log("Cloud load failed — using local data");
+  }
+}
+
+// ===== CLOUD SAVE =====
+async function cloudSave() {
+  try {
+    await fetch(API_URL, {
+      method: "POST",
+      body: JSON.stringify({
+        type: "updateStock",
+        rows: raw
+      })
+    });
+    console.log("Cloud stock saved");
+  } catch (e) {
+    console.log("Cloud save failed");
+  }
+}
 // ═══════════════════════════════════════════════════════
 // STOCK HELPERS
 // ═══════════════════════════════════════════════════════
@@ -847,6 +882,7 @@ function deduct(order){
     log.push(`${r.name} −${f(qty)}${dispUnit(r)} (${f(prev)}→${f(r.stock)})`);
   }
   hist.unshift({id:uid(),msg:`✅ ${order.tableLabel} completed`,detail:log.join(' | '),time:ts()});
+  cloudSave();
 }
 
 // ═══════════════════════════════════════════════════════
@@ -1266,6 +1302,7 @@ function refresh(){
 // Set initial page
 document.getElementById('page-orders').classList.add('active');
 refresh();
+cloudLoad();
 </script>
 </body>
 </html>
